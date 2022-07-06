@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
-import {Text, Modal, StyleSheet, SafeAreaView, View, TextInput, Pressable, ScrollView} from "react-native"
+import {Text, Modal, StyleSheet, SafeAreaView, View, TextInput, Pressable, ScrollView, Alert} from "react-native"
 import DatePicker from 'react-native-date-picker';
 
 function Form(props) {
-  const {modalVisible, setModalVisible} = props;
+  const {modalVisible, setModalVisible, setPatients, patients} = props;
 
   const [patient, setPatient] = useState("");
   const [owner, setOwner] = useState("");
@@ -12,6 +12,32 @@ function Form(props) {
   const [date, setDate] = useState(new Date);
   const [sympthoms, setSympthoms] = useState("");
   
+  const handleAppointment = () => {
+    //validation
+    if([patient, owner, email, date, sympthoms].includes("")){
+      Alert.alert(
+        "ERROR",
+        "All fields are mandatory!"
+      )
+      return;
+    }
+
+    const newPatient = {
+      patient, owner, email, tel, date, sympthoms
+    }
+
+    setPatients([...patients, newPatient])
+    
+    setPatient("");
+    setOwner("")
+    setDate(new Date);
+    setTel("");
+    setEmail("");
+    setSympthoms("");
+
+    setModalVisible(!modalVisible)
+    
+  }
 
   return (
     <Modal animationType='slide' visible={modalVisible} >
@@ -74,7 +100,7 @@ function Form(props) {
           </View>
 
           <View style={styles.field}>
-            <Pressable style={styles.btnNewApp}>
+            <Pressable style={styles.btnNewApp} onPress={handleAppointment}>
               <Text style={styles.btnTextNewApp}>Save Patient</Text>
             </Pressable>
           </View>

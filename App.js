@@ -13,6 +13,7 @@ import {
 
 const App = () => {
   const [modalVisible, setModalVisible]= useState(false);
+  const [patients, setPatients] = useState([]);
 
   const newAppHandler = () => {
     console.log("Boton presionado")
@@ -33,6 +34,8 @@ const App = () => {
       <Form 
       modalVisible={modalVisible}
       setModalVisible={setModalVisible}
+      setPatients={setPatients}
+      patients={patients}
       />
       
 
