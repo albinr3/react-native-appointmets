@@ -30,7 +30,10 @@ const App = () => {
         <Text style={styles.btnTextNewApp}>New Appointment</Text>
       </Pressable>
 
-      <Form modalVisible={modalVisible}/>
+      <Form 
+      modalVisible={modalVisible}
+      setModalVisible={setModalVisible}
+      />
       
 
     </SafeAreaView>
