@@ -23,7 +23,7 @@ function Form(props) {
     }
 
     const newPatient = {
-      patient, owner, email, tel, date, sympthoms
+      patient, owner, email, tel, date, sympthoms, id: Date.now()
     }
 
     setPatients([...patients, newPatient])

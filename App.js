@@ -7,8 +7,10 @@ import {
   Text,
   View,
   Pressable,
-  Modal
+  Modal,
+  FlatList
 } from 'react-native';
+import Patient from './src/components/Patient';
 
 
 const App = () => {
@@ -30,6 +32,21 @@ const App = () => {
       <Pressable onPress={newAppHandler} style={styles.btnNewApp}>
         <Text style={styles.btnTextNewApp}>New Appointment</Text>
       </Pressable>
+
+      {patients.length === 0 ? 
+        <Text>There is not patients</Text> : 
+          <FlatList
+            data={patients}
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => {
+              return(
+                <Patient item={item}/>
+              )
+            }}
+            >
+
+          </FlatList>
+      }
 
       <Form 
       modalVisible={modalVisible}
