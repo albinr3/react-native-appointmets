@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Patient = ({item}) => {
-    const {patient, date} = item;
+const Patient = ({item, setModalVisible, editPatient, deletePatient}) => {
+    const {patient, date, id} = item;
 
     const formatDate = date => {
         const newDate = new Date(date);
@@ -15,6 +15,16 @@ const Patient = ({item}) => {
 
         return newDate.toLocaleDateString("es-ES", options)
     }
+
+    const handleEdit = (id) => {
+        setModalVisible(true);
+        editPatient(id)
+    }
+
+    const handleDelete = (id) => {
+        deletePatient(id)
+    }
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Patient</Text>
@@ -22,11 +32,11 @@ const Patient = ({item}) => {
       <Text style={styles.date}>{formatDate(date)}</Text>
 
       <View style={styles.btnContainer}>
-        <Pressable style={[styles.btnEdit, styles.btn]}>
+        <Pressable onPress={() => handleEdit(id)} style={[styles.btnEdit, styles.btn]}>
             <Text style={styles.textBtn}>Edit</Text>
         </Pressable>
 
-        <Pressable style={[styles.btnDel, styles.btn]}>
+        <Pressable onPress={() => handleDelete(id)} style={[styles.btnDel, styles.btn]}>
             <Text style={styles.textBtn}>Delete</Text>
         </Pressable>
 

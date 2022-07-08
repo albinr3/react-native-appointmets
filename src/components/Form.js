@@ -1,16 +1,34 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Text, Modal, StyleSheet, SafeAreaView, View, TextInput, Pressable, ScrollView, Alert} from "react-native"
 import DatePicker from 'react-native-date-picker';
 
 function Form(props) {
-  const {modalVisible, setModalVisible, setPatients, patients} = props;
+  const {modalVisible, 
+    setModalVisible, 
+    setPatients, 
+    patients, 
+    patient: patientObj, 
+    setPatient: setPatientObj} = props;
 
-  const [patient, setPatient] = useState("");
-  const [owner, setOwner] = useState("");
-  const [email, setEmail] = useState("");
-  const [tel, setTel] = useState("");
+  const [patient, setPatient] = useState("Albin");
+  const [owner, setOwner] = useState("Hook");
+  const [id, setId] = useState("");
+  const [email, setEmail] = useState("albin123");
+  const [tel, setTel] = useState("8095781010");
   const [date, setDate] = useState(new Date);
-  const [sympthoms, setSympthoms] = useState("");
+  const [sympthoms, setSympthoms] = useState("no duerme");
+
+  useEffect(() => {
+    if(Object.keys(patientObj).length > 0) {
+      setPatient(patientObj.patient)
+      setId(patientObj.id)
+      setOwner(patientObj.owner)
+      setEmail(patientObj.email)
+      setTel(patientObj.tel)
+      setDate(patientObj.date)
+      setSympthoms(patientObj.sympthoms)
+    }
+  }, [patientObj])
   
   const handleAppointment = () => {
     //validation
@@ -22,12 +40,27 @@ function Form(props) {
       return;
     }
 
+    //here we create a new object we the patient info
     const newPatient = {
-      patient, owner, email, tel, date, sympthoms, id: Date.now()
+      patient, owner, email, tel, date, sympthoms
     }
 
-    setPatients([...patients, newPatient])
-    
+    //check if we are editing or a new one
+    if(id) {
+      //editing a patient
+      newPatient.id = id;
+
+      const updatedPatients = patients.map( (patient) => patient.id === id ? newPatient : patient);
+      setPatients(updatedPatients); 
+      setPatientObj({});
+      
+    } else {
+      //new patient
+      newPatient.id = Date.now()
+      setPatients([...patients, newPatient])
+    }
+
+    setId("");
     setPatient("");
     setOwner("")
     setDate(new Date);
@@ -43,11 +76,23 @@ function Form(props) {
     <Modal animationType='slide' visible={modalVisible} >
       <SafeAreaView style={styles.backgroundStyle}>
         <ScrollView>
-          <Text style={styles.title}>New {""}
+          
+          <Text style={styles.title}>{!id ? "New" : "Editing"} {""}
             <Text style={styles.titleBold}>Appointment</Text>
-          </Text>
+          </Text> 
+          
+          <Pressable style={styles.btnCancell} onLongPress={() => {
+            setModalVisible(false)
+            setId("");
+            setPatient("");
+            setOwner("")
+            setDate(new Date);
+            setTel("");
+            setEmail("");
+            setSympthoms("");
 
-          <Pressable style={styles.btnCancell} onLongPress={() => setModalVisible(false)}>
+            setPatientObj({})
+            }}>
             <Text style={styles.btnCancellText}>X Close</Text>
           </Pressable>
 
@@ -101,7 +146,7 @@ function Form(props) {
 
           <View style={styles.field}>
             <Pressable style={styles.btnNewApp} onPress={handleAppointment}>
-              <Text style={styles.btnTextNewApp}>Save Patient</Text>
+              <Text style={styles.btnTextNewApp}>{!id ? "Save Patient" : "Save Changes"}</Text>
             </Pressable>
           </View>
         </ScrollView>
