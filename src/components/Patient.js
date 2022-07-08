@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Patient = ({item, setModalVisible, editPatient, deletePatient}) => {
+const Patient = ({item, setModalVisible, editPatient, deletePatient, setPatientModal, setPatient}) => {
     const {patient, date, id} = item;
 
     const formatDate = date => {
@@ -26,23 +26,29 @@ const Patient = ({item, setModalVisible, editPatient, deletePatient}) => {
     }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Patient</Text>
-      <Text style={styles.text}>{patient}</Text>
-      <Text style={styles.date}>{formatDate(date)}</Text>
+    <Pressable onPress={() => {
+        setPatientModal(true)
+        setPatient(item)
+        
+        }}>
+        <View style={styles.container}>
+        <Text style={styles.label}>Patient</Text>
+        <Text style={styles.text}>{patient}</Text>
+        <Text style={styles.date}>{formatDate(date)}</Text>
 
-      <View style={styles.btnContainer}>
-        <Pressable onPress={() => handleEdit(id)} style={[styles.btnEdit, styles.btn]}>
-            <Text style={styles.textBtn}>Edit</Text>
-        </Pressable>
+        <View style={styles.btnContainer}>
+            <Pressable onPress={() => handleEdit(id)} style={[styles.btnEdit, styles.btn]}>
+                <Text style={styles.textBtn}>Edit</Text>
+            </Pressable>
 
-        <Pressable onPress={() => handleDelete(id)} style={[styles.btnDel, styles.btn]}>
-            <Text style={styles.textBtn}>Delete</Text>
-        </Pressable>
+            <Pressable onPress={() => handleDelete(id)} style={[styles.btnDel, styles.btn]}>
+                <Text style={styles.textBtn}>Delete</Text>
+            </Pressable>
 
 
-      </View>
-    </View>
+        </View>
+        </View>
+    </Pressable>
   )
 }
 

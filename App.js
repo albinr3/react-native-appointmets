@@ -12,12 +12,14 @@ import {
   Alert
 } from 'react-native';
 import Patient from './src/components/Patient';
+import PatientInfo from './src/components/PatientInfo';
 
-//
+
 const App = () => {
   const [modalVisible, setModalVisible]= useState(false);
   const [patients, setPatients] = useState([]);
   const [patient, setPatient] = useState({});
+  const [patientModal, setPatientModal]= useState(false);
   
 
   const newAppHandler = () => {
@@ -45,9 +47,6 @@ const App = () => {
         }
       ]
     )
-    
-    
-    
   }
   
 
@@ -73,6 +72,8 @@ const App = () => {
                 setModalVisible={setModalVisible}
                 editPatient={editPatient}
                 deletePatient={deletePatient}
+                setPatientModal={setPatientModal}
+                setPatient={setPatient}
                 />
               )
             }}
@@ -89,6 +90,13 @@ const App = () => {
       patient={patient}
       setPatient={setPatient}
       />
+
+      <Modal
+      visible={patientModal}
+      animationType="fade"
+      >
+        <PatientInfo patient={patient} setPatientModal={setPatientModal}/>
+      </Modal>
       
 
     </SafeAreaView>
