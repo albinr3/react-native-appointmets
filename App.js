@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Patient from './src/components/Patient';
 
-
+//
 const App = () => {
   const [modalVisible, setModalVisible]= useState(false);
   const [patients, setPatients] = useState([]);
