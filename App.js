@@ -48,6 +48,11 @@ const App = () => {
       ]
     )
   }
+
+  //this fuction is to avoid dismount the form when clicking close form
+  const closeForm = () => {
+    setModalVisible(false)
+  }
   
 
   return (
@@ -82,20 +87,25 @@ const App = () => {
           </FlatList>
       }
 
-      <Form 
-      modalVisible={modalVisible}
-      setModalVisible={setModalVisible}
-      setPatients={setPatients}
-      patients={patients}
-      patient={patient}
-      setPatient={setPatient}
-      />
-
+      {modalVisible && (
+        <Form 
+        modalVisible={modalVisible}
+        closeForm={closeForm}
+        setPatients={setPatients}
+        patients={patients}
+        patient={patient}
+        setPatient={setPatient}
+        />
+      )}
+      
       <Modal
       visible={patientModal}
       animationType="fade"
       >
-        <PatientInfo patient={patient} setPatientModal={setPatientModal}/>
+        <PatientInfo 
+        patient={patient}
+        setPatientModal={setPatientModal}
+        setPatient={setPatient}/>
       </Modal>
       
 

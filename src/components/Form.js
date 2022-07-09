@@ -3,20 +3,22 @@ import {Text, Modal, StyleSheet, SafeAreaView, View, TextInput, Pressable, Scrol
 import DatePicker from 'react-native-date-picker';
 
 function Form(props) {
-  const {modalVisible, 
-    setModalVisible, 
+  const {
+    closeForm, 
+    modalVisible, 
     setPatients, 
     patients, 
     patient: patientObj, 
-    setPatient: setPatientObj} = props;
+    setPatient: setPatientObj
+  } = props;
 
-  const [patient, setPatient] = useState("Albin");
-  const [owner, setOwner] = useState("Hook");
+  const [patient, setPatient] = useState("");
+  const [owner, setOwner] = useState("");
   const [id, setId] = useState("");
-  const [email, setEmail] = useState("albin123");
-  const [tel, setTel] = useState("8095781010");
+  const [email, setEmail] = useState("");
+  const [tel, setTel] = useState("");
   const [date, setDate] = useState(new Date);
-  const [sympthoms, setSympthoms] = useState("no duerme");
+  const [sympthoms, setSympthoms] = useState("");
 
   useEffect(() => {
     if(Object.keys(patientObj).length > 0) {
@@ -68,7 +70,7 @@ function Form(props) {
     setEmail("");
     setSympthoms("");
 
-    setModalVisible(!modalVisible)
+    closeForm();
     
   }
 
@@ -82,7 +84,7 @@ function Form(props) {
           </Text> 
           
           <Pressable style={styles.btnCancell} onLongPress={() => {
-            setModalVisible(false)
+            closeForm();
             setId("");
             setPatient("");
             setOwner("")
